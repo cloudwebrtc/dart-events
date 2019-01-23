@@ -1,5 +1,5 @@
 import 'dart:core';
-import 'package:events2/events.dart';
+import 'package:events2/events2.dart';
 
 
 class MyClass extends EventEmitter {
