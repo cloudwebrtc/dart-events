@@ -1,0 +1,7 @@
+name: events2
+version: 0.1.0
+author: cloudwebrtc <duanweiwei1982@gmail.com>
+description: Dart version of the event emitter.
+homepage: https://github.com/cloudwebrtc/dart-events
+environment:
+  sdk: '<3.0.0'

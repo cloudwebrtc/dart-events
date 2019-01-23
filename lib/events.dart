@@ -1,0 +1,1 @@
+export 'src/event_emitter.dart';
