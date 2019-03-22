@@ -1,3 +1,5 @@
+[![pub package](https://img.shields.io/pub/v/events2.svg)](https://pub.dartlang.org/packages/events2)
+
 # dart-events
 Event emitter for dart2.
 
