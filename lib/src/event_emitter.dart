@@ -102,8 +102,8 @@ class EventEmitter {
    * @return void
    */
   void remove(String event, Function handler) {
-    this._events[event].removeWhere((item) => item == handler);
-    this._eventsOnce[event].removeWhere((item) => item == handler);
+    this._events[event]?.removeWhere((item) => item == handler);
+    this._eventsOnce[event]?.removeWhere((item) => item == handler);
   }
 
   /**

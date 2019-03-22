@@ -1,5 +1,9 @@
 ## Changelog
 --------------------------------------------
+[0.1.3] - 2019.03.22
+
+* Fixed a crash when handler list is empty.
+
 [0.1.2] - 2019.03.22
 
 * Add remove method.
