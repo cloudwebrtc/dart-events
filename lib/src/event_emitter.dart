@@ -101,6 +101,17 @@ class EventEmitter {
    * @param Function handler - The handler to remove
    * @return void
    */
+  void remove(String event, Function handler) {
+    this._events[event].removeWhere((item) => item == handler);
+    this._eventsOnce[event].removeWhere((item) => item == handler);
+  }
+
+  /**
+   * This function attempts to unbind all the `handler` from the `event`
+   *
+   * @param String event     - The event to remove the handler from
+   * @return void
+   */
   void off(String event) {
     this._events[event] = new List<Function>();
     this._eventsOnce[event] = new List<Function>();
