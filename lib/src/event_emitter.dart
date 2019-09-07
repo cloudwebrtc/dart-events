@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:core';
 
 class EventEmitter {
@@ -51,6 +52,48 @@ class EventEmitter {
     }
   }
 
+  Future<dynamic> callbackAsFuture(Function func,
+      [arg0, arg1, arg2, arg3, arg4, arg5]) async {
+    Completer completer = new Completer();
+    try {
+      String arguments = func.runtimeType.toString().split(' => ')[0];
+      var result;
+      if (arguments.length > 3) {
+        String args = arguments.substring(1, arguments.length - 1);
+        int argc = args.split(', ').length;
+        switch (argc) {
+          case 1:
+            result = await func(arg0 ?? null);
+            break;
+          case 2:
+            result = await func(arg0 ?? null, arg1 ?? null);
+            break;
+          case 3:
+            result = await func(arg0 ?? null, arg1 ?? null, arg2 ?? null);
+            break;
+          case 4:
+            result = await func(
+                arg0 ?? null, arg1 ?? null, arg2 ?? null, arg3 ?? null);
+            break;
+          case 5:
+            result = await func(arg0 ?? null, arg1 ?? null, arg2 ?? null,
+                arg3 ?? null, arg4 ?? null);
+            break;
+          case 5:
+            result = await func(arg0 ?? null, arg1 ?? null, arg2 ?? null,
+                arg3 ?? null, arg4 ?? null, arg5 ?? null);
+            break;
+        }
+      } else {
+        result = await func();
+      }
+      completer.complete(result);
+    } catch (error) {
+      completer.completeError(error);
+    }
+    return completer;
+  }
+
   /**
    * This function triggers all the handlers currently listening
    * to `event` and passes them `data`.
@@ -65,6 +108,24 @@ class EventEmitter {
     });
     this._eventsOnce.remove(event)?.forEach((Function func) {
       callback(func, arg0, arg1, arg2, arg3, arg4, arg5);
+    });
+  }
+
+  /**
+   * This function triggers all the handlers currently listening
+   * to `event` and passes them `data`.
+   *
+   * @param String event - The event to trigger
+   * @param [args] - The variable numbers of arguments to send to each handler
+   * @return Future<dynamic>
+   */
+  Future<dynamic> emitAsFuture(String event,
+      [arg0, arg1, arg2, arg3, arg4, arg5]) async {
+    this._events[event]?.forEach((Function func) async {
+      return await callbackAsFuture(func, arg0, arg1, arg2, arg3, arg4, arg5);
+    });
+    this._eventsOnce.remove(event)?.forEach((Function func) async {
+      return await callbackAsFuture(func, arg0, arg1, arg2, arg3, arg4, arg5);
     });
   }
 
@@ -125,5 +186,17 @@ class EventEmitter {
   void clearListeners() {
     this._events = new Map<String, List<Function>>();
     this._eventsOnce = new Map<String, List<Function>>();
+  }
+
+  /**
+   * Return function list named `event`.
+   *
+   * @return List<Function>
+   */
+  List<dynamic> listeners(event){
+    var list = [];
+    list += this._events[event]?? [];
+    list += this._eventsOnce[event]?? [];
+    return list;
   }
 }
