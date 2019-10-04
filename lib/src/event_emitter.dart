@@ -24,6 +24,7 @@ class EventEmitter {
     String arguments = func.runtimeType.toString().split(' => ')[0];
     if (arguments.length > 3) {
       String args = arguments.substring(1, arguments.length - 1);
+      args = args.replaceAll(RegExp("<(.*)>"), "");
       int argc = args.split(', ').length;
       switch (argc) {
         case 1:
@@ -60,6 +61,7 @@ class EventEmitter {
       var result;
       if (arguments.length > 3) {
         String args = arguments.substring(1, arguments.length - 1);
+        args = args.replaceAll(RegExp("<(.*)>"), "");
         int argc = args.split(', ').length;
         switch (argc) {
           case 1:
@@ -193,10 +195,10 @@ class EventEmitter {
    *
    * @return List<Function>
    */
-  List<dynamic> listeners(event){
+  List<dynamic> listeners(event) {
     var list = [];
-    list += this._events[event]?? [];
-    list += this._eventsOnce[event]?? [];
+    list += this._events[event] ?? [];
+    list += this._eventsOnce[event] ?? [];
     return list;
   }
 }

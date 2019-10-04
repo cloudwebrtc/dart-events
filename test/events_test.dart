@@ -1,10 +1,10 @@
 import 'dart:core';
-import 'package:events2/events2.dart';
 
+import '../lib/events2.dart';
 
 class MyClass extends EventEmitter {
-  MyClass(){}
-  void sendEvent(){
+  MyClass() {}
+  void sendEvent() {
     this.emit('event2', 'a', 'b', 3, 'd');
   }
 }
