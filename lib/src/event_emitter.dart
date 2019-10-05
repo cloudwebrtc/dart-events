@@ -105,7 +105,7 @@ class EventEmitter {
    * @return void
    */
   void emit(String event, [arg0, arg1, arg2, arg3, arg4, arg5]) {
-    this._events[event]?.forEach((Function func) {
+    this._events[event]?.toList()?.forEach((Function func) {
       callback(func, arg0, arg1, arg2, arg3, arg4, arg5);
     });
     this._eventsOnce.remove(event)?.forEach((Function func) {
@@ -123,7 +123,7 @@ class EventEmitter {
    */
   Future<dynamic> emitAsFuture(String event,
       [arg0, arg1, arg2, arg3, arg4, arg5]) async {
-    this._events[event]?.forEach((Function func) async {
+    this._events[event]?.toList()?.forEach((Function func) async {
       return await callbackAsFuture(func, arg0, arg1, arg2, arg3, arg4, arg5);
     });
     this._eventsOnce.remove(event)?.forEach((Function func) async {
